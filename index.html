@@ -21,19 +21,18 @@
 </head>
 <body>
   <h1>Check Name</h1>
-  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbxdWRqAHEKzALQ4lL938hCRGVd72MouYeDpxzGJzWbunortjlENPoWkWOJX-6gH3l0d/exec" method="POST">
+  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbxlFxDw0nOXTxfBOKigLi_Chzz6euer6vmb6R22oOHb_xVdZ1IQQ362oli4FXyHw3uf/exec" method="POST">
     <label for="name">Enter Name:</label>
     <input type="text" id="name" name="name" required>
     <button type="submit">Submit</button>
   </form>
   
   <div class="result" id="result">
-    <h2>Result:</h2>
-    <p id="name"></p>
+    <h2 id="nameHeader"></h2>
     <p id="showDate"></p>
     <p id="roleType"></p>
-    <p id="location"></p> <!-- Location field -->
-    <p id="dateOfBirth"></p> <!-- Date of Birth field -->
+    <p id="location"></p>
+    <p id="dateOfBirth"></p>
     <img id="image" src="" alt="Image">
     <div class="social-links">
       <a id="facebookUrl" href="" target="_blank">Facebook</a>
@@ -47,38 +46,36 @@
       event.preventDefault();
       const form = event.target;
       const formData = new FormData(form);
-      const url = form.action;
 
-      fetch(url, {
+      fetch(form.action, {
         method: 'POST',
         body: formData,
       })
       .then(response => response.json())
       .then(data => {
         const resultDiv = document.getElementById('result');
+        const nameHeader = document.getElementById('nameHeader');
+
         if (data.status === 'success') {
-          document.getElementById('name').textContent = `Name: ${data.name}`;
+          nameHeader.textContent = `Name: ${data.name}`;
           document.getElementById('roleType').textContent = `Role Type: ${data.roleType}`;
-          document.getElementById('location').textContent = `Location: ${data.location}`; // Location field
+          document.getElementById('location').textContent = `Location: ${data.location}`;
           document.getElementById('image').src = data.imageUrl;
-          
-          // Calculate number of days since show date
+
           const showDate = new Date(data.showDate);
           const today = new Date();
           const diffTime = Math.abs(today - showDate);
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
           document.getElementById('showDate').textContent = `Show Date: ${diffDays} days ago`;
-          
-          // Calculate age from date of birth
+
           const dob = new Date(data.dateOfBirth);
           const age = today.getFullYear() - dob.getFullYear();
           document.getElementById('dateOfBirth').textContent = `Age: ${age} years`;
-          
-          // Set social media links
+
           document.getElementById('facebookUrl').href = validateUrl(data.facebookUrl);
           document.getElementById('twitterUrl').href = validateUrl(data.twitterUrl);
           document.getElementById('linkedinUrl').href = validateUrl(data.linkedinUrl);
-          
+
           resultDiv.style.display = 'block';
         } else {
           resultDiv.style.display = 'none';
@@ -91,7 +88,6 @@
       });
     });
 
-    // Function to ensure URLs are valid and start with http/https
     function validateUrl(url) {
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         return 'http://' + url;
