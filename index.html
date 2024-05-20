@@ -21,7 +21,7 @@
 </head>
 <body>
   <h1>Check Name</h1>
-  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbxlFxDw0nOXTxfBOKigLi_Chzz6euer6vmb6R22oOHb_xVdZ1IQQ362oli4FXyHw3uf/exec" method="POST">
+  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbxni-S5QnDwq4rnBi3xCqIjo_eFOtSlfZomrEXGYxOf8-zTs_81P5QClc4PLtHD2UML/exec" method="POST">
     <label for="name">Enter Name:</label>
     <input type="text" id="name" name="name" required>
     <button type="submit">Submit</button>
@@ -29,6 +29,7 @@
   
   <div class="result" id="result">
     <h2 id="nameHeader"></h2>
+    <p id="status"></p>
     <p id="showDate"></p>
     <p id="roleType"></p>
     <p id="location"></p>
@@ -56,8 +57,9 @@
         const resultDiv = document.getElementById('result');
         const nameHeader = document.getElementById('nameHeader');
 
-        if (data.status === 'success') {
+        if (data.status === 'active') {
           nameHeader.textContent = `Name: ${data.name}`;
+          document.getElementById('status').textContent = `Status: ${data.status}`;
           document.getElementById('roleType').textContent = `Role Type: ${data.roleType}`;
           document.getElementById('location').textContent = `Location: ${data.location}`;
           document.getElementById('image').src = data.imageUrl;
@@ -77,6 +79,9 @@
           document.getElementById('linkedinUrl').href = validateUrl(data.linkedinUrl);
 
           resultDiv.style.display = 'block';
+        } else if (data.status === 'deactive') {
+          resultDiv.style.display = 'none';
+          alert('Entry is inactive');
         } else {
           resultDiv.style.display = 'none';
           alert('Error: ' + data.message);
