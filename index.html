@@ -21,7 +21,7 @@
 </head>
 <body>
   <h1>Check Name</h1>
-  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbxni-S5QnDwq4rnBi3xCqIjo_eFOtSlfZomrEXGYxOf8-zTs_81P5QClc4PLtHD2UML/exec" method="POST">
+  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbwrlyM7qy3fVSFLvc4rMG_hRgJkq42LSxwNQvMYLN8BiMlbXryC0FJMQLJlyclTpEyM/exec" method="POST">
     <label for="name">Enter Name:</label>
     <input type="text" id="name" name="name" required>
     <button type="submit">Submit</button>
@@ -56,10 +56,15 @@
       .then(data => {
         const resultDiv = document.getElementById('result');
         const nameHeader = document.getElementById('nameHeader');
+        const statusElement = document.getElementById('status');
 
-        if (data.status === 'active') {
+        if (data.status === 'active' || data.status === 'deactive') {
           nameHeader.textContent = `Name: ${data.name}`;
-          document.getElementById('status').textContent = `Status: ${data.status}`;
+          statusElement.textContent = 'Status: ';
+          const statusText = document.createElement('span');
+          statusText.textContent = data.status === 'active' ? 'Active' : 'Inactive';
+          statusText.style.color = data.status === 'active' ? 'green' : 'red';
+          statusElement.appendChild(statusText);
           document.getElementById('roleType').textContent = `Role Type: ${data.roleType}`;
           document.getElementById('location').textContent = `Location: ${data.location}`;
           document.getElementById('image').src = data.imageUrl;
@@ -79,9 +84,6 @@
           document.getElementById('linkedinUrl').href = validateUrl(data.linkedinUrl);
 
           resultDiv.style.display = 'block';
-        } else if (data.status === 'deactive') {
-          resultDiv.style.display = 'none';
-          alert('Entry is inactive');
         } else {
           resultDiv.style.display = 'none';
           alert('Error: ' + data.message);
