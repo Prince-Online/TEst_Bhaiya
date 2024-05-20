@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unique ID Checker</title>
+  <title>Name Checker</title>
   <style>
     .result {
       display: none;
@@ -20,10 +20,10 @@
   </style>
 </head>
 <body>
-  <h1>Check Unique ID</h1>
-  <form id="uniqueIdForm" action="https://script.google.com/macros/s/AKfycbx6wSYqhX0btQR_dAw9Law5AxK00sQ2z360YfN820gQogsSxMTYD0_ADfNXbJbJwUb1/exec" method="POST">
-    <label for="uniqueId">Enter Unique ID:</label>
-    <input type="text" id="uniqueId" name="uniqueId" required>
+  <h1>Check Name</h1>
+  <form id="nameForm" action="https://script.google.com/macros/s/AKfycbxdWRqAHEKzALQ4lL938hCRGVd72MouYeDpxzGJzWbunortjlENPoWkWOJX-6gH3l0d/exec" method="POST">
+    <label for="name">Enter Name:</label>
+    <input type="text" id="name" name="name" required>
     <button type="submit">Submit</button>
   </form>
   
@@ -43,7 +43,7 @@
   </div>
 
   <script>
-    document.getElementById('uniqueIdForm').addEventListener('submit', function(event) {
+    document.getElementById('nameForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const form = event.target;
       const formData = new FormData(form);
